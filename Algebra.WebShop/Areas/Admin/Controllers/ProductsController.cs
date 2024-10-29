@@ -57,6 +57,8 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Price")] Product product)
         {
+            ModelState.Remove("OrderItems");
+            ModelState.Remove("Categories");
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -89,6 +91,8 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price")] Product product)
         {
+            ModelState.Remove("OrderItems");
+            ModelState.Remove("Categories");
             if (id != product.Id)
             {
                 return NotFound();
