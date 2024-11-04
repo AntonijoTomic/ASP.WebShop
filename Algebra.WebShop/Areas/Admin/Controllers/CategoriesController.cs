@@ -1,11 +1,13 @@
 ﻿using Algebra.WebShop.Data;
 using Algebra.WebShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Algebra.WebShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,6 +18,7 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Categories.ToListAsync());

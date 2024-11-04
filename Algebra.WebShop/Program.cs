@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace Algebra.WebShop
 {
     public class Program
@@ -25,9 +27,8 @@ namespace Algebra.WebShop
             {
                 options.SignIn.RequireConfirmedAccount = false;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-           
-          
 
             builder.Services.AddControllersWithViews();
 
@@ -50,18 +51,17 @@ namespace Algebra.WebShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapControllerRoute(
                 name: "Admin",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-              );
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-          
-            
             app.MapRazorPages();
 
             app.Run();

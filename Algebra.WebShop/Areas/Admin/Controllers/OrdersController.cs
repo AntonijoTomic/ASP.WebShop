@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Algebra.WebShop.Data;
 using Algebra.WebShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Algebra.WebShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
