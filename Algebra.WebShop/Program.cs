@@ -30,6 +30,13 @@ namespace Algebra.WebShop
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy
+                    .RequireAuthenticatedUser()
+                    .RequireRole("Admin"));
+            });
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

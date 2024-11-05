@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Algebra.WebShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;

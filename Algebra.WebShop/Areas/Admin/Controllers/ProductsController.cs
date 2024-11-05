@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Algebra.WebShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,7 +20,7 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Products.Include(x => x.Categories).ThenInclude(x => x.Category).ToListAsync());
         }
 
         // GET: Admin/Products/Details/5
@@ -52,10 +52,11 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description")] Product product)
         {
-            ModelState.Remove("OrderItems");
             ModelState.Remove("Categories");
+            ModelState.Remove("OrderItems");
+
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -86,14 +87,15 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description")] Product product)
         {
-            ModelState.Remove("OrderItems");
-            ModelState.Remove("Categories");
             if (id != product.Id)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("Categories");
+            ModelState.Remove("OrderItems");
 
             if (ModelState.IsValid)
             {

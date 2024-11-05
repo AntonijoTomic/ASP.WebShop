@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Algebra.WebShop.Models.ProductCategory>
+﻿@model IEnumerable<ProductCategory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Product categories";
 }
 
-<h1>ProductCategories</h1>
+<h1>Product categories</h1>
 
 <p>
     <a asp-action="Create" asp-route-productId="@ViewBag.ProductId">Create New</a>
@@ -22,22 +22,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-productId="@ViewBag.ProductId"  asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-productId="@ViewBag.ProductId" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-productId="@ViewBag.ProductId" asp-route-id="@item.Id">Delete</a> |
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-productId="@ViewBag.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" asp-route-productId="@ViewBag.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-productId="@ViewBag.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-<a asp-controller="Products" asp-action="Index" > Back to products</a>
+<a asp-controller="Products" asp-action="Index">Back to products</a>

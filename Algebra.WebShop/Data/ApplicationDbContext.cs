@@ -32,7 +32,7 @@ namespace Algebra.WebShop.Data
                   .HasIndex(_ =>new {_.OrderId, _.ProductId})
                  .IsUnique();
 
-
+            
             base.OnModelCreating(builder);
         }
     }
