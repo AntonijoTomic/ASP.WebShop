@@ -54,7 +54,7 @@ public class CartController(ApplicationDbContext context) : Controller
 
         return RedirectToAction(nameof(Index));
     }
-    
+    [HttpPost]
     public IActionResult RemoveFromCart(int productId)
     {
         var cart = HttpContext.Session.GetCart();
