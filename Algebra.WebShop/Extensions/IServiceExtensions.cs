@@ -11,12 +11,12 @@ namespace Algebra.WebShop.Extensions
         {
             // Add services to the container.
 
-            //services.AddSession(options =>
-            //{
-            //    options.IdleTimeout = TimeSpan.FromMinutes(1);
-            //    options.Cookie.Name = ".Algebra.WebShop.Session";
-            //    options.Cookie.IsEssential = true;
-            //});
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+                options.Cookie.Name = ".Algebra.WebShop.Session";
+                options.Cookie.IsEssential = true;
+            });
 
             // Add services to the container.
             var connectionString = configuration.GetConnectionString("DefaultConnection")
@@ -43,7 +43,7 @@ namespace Algebra.WebShop.Extensions
 
             services.AddControllersWithViews();
 
-            return services;
+            return services; 
         }
     }
 }

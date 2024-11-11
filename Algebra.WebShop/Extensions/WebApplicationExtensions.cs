@@ -23,6 +23,7 @@ public static class WebApplicationExtensions
 
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseSession();
 
         app.MapControllerRoute(
             name: "Admin",
