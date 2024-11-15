@@ -17,4 +17,9 @@ public static class ISessionExtensions
         var sessionData = JsonConvert.SerializeObject(value);
         session.SetString(CART_SESSION_KEY, sessionData);
     }
+
+    public static void ClearCart(this ISession session)
+    {
+        session.SetString(CART_SESSION_KEY, string.Empty);
+    }
 }
