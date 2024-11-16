@@ -32,6 +32,8 @@ public class OrderController(ApplicationDbContext context) : Controller
     public IActionResult Create([Bind("FirstName,LastName,PhoneNumber,CustomerEmailAdress,CustomerAdress")] Order order)
     {
         ModelState.Remove("Items");
+        ModelState.Remove("User");
+        ModelState.Remove("UserId");
         if (ModelState.IsValid)
         {
             var cart = HttpContext.Session.GetCart();
