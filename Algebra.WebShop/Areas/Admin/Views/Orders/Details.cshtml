@@ -57,6 +57,7 @@
             @Html.DisplayFor(model => model.Total) €
         </dd>
     </dl>
+    <partial name="_OrderItemsPartial" for="@Model.Items" />
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

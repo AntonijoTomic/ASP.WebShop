@@ -35,14 +35,32 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var order = await _context.Orders
-                .Include(y => y.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                           .Include(x => x.User)
+                           .FirstOrDefaultAsync(m => m.Id == id);
+
             if (order == null)
             {
                 return NotFound();
             }
+
+            order.Items = (
+                from items in _context.OrderItems
+                join products in _context.Products on items.ProductId equals products.Id
+                where items.OrderId == id
+                select new OrderItem
+                {
+                    Id = items.Id,
+                    OrderId = items.OrderId,
+                    Price = items.Price,
+                    Quantity = items.Quantity,
+                    Total = items.Total,
+                    ProductId = items.ProductId,
+                    ProductName = products.Name
+                }
+                ).ToList();
+
+            ViewData["ShowActions"] = false;
 
             return View(order);
         }
