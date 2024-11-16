@@ -11,20 +11,29 @@ namespace Algebra.WebShop.Controllers;
 public class OrderController(ApplicationDbContext context) : Controller
 {
 
-    private string? GetCurrentUserId()
+      public IActionResult Index(bool? success)
     {
-        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        return userId;
-    }
-    public IActionResult Index(bool? success)
-    {
-       
-        
-
         ViewData["Success"] = success;
+
         var cart = HttpContext.Session.GetCart();
-        ViewData["Cart"]= HttpContext.Session.GetCart();
-        return View();
+
+        ViewData["Cart"] = cart;
+
+        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var user = context.Users.Find(userId);
+
+        var order = new Order();
+
+        if (user != null)
+        {
+            order.FirstName = string.IsNullOrEmpty(user.FirstName) ? string.Empty : user.FirstName;
+            order.LastName = string.IsNullOrEmpty(user.LastName) ? string.Empty : user.LastName;
+            order.PhoneNumber = string.IsNullOrEmpty(user.PhoneNumber) ? string.Empty : user.PhoneNumber;
+            order.CustomerEmailAdress = string.IsNullOrEmpty(user.Email) ? string.Empty : user.Email;
+            order.CustomerAdress = string.IsNullOrEmpty(user.Adress) ? string.Empty : user.Adress;
+        }
+
+        return View(order);
     }
 
     [HttpPost]
@@ -37,7 +46,7 @@ public class OrderController(ApplicationDbContext context) : Controller
         if (ModelState.IsValid)
         {
             var cart = HttpContext.Session.GetCart();
-            order.UserId = GetCurrentUserId()!;
+            order.UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
             order.Total = cart.GrandTotal;
             order.DateTimeCreated = DateTime.UtcNow;
             context.Orders.Add(order);

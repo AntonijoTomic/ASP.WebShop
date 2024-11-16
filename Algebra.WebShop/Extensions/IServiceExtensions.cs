@@ -11,6 +11,8 @@ namespace Algebra.WebShop.Extensions
         {
             // Add services to the container.
 
+            services.AddHttpContextAccessor();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(1);
