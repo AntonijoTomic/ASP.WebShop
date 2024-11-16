@@ -37,6 +37,7 @@ namespace Algebra.WebShop.Areas.Admin.Controllers
             }
 
             var order = await _context.Orders
+                .Include(y => y.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
