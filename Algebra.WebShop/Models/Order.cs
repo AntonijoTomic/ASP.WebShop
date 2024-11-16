@@ -41,5 +41,7 @@ public class Order
     public virtual ICollection<OrderItem> Items { get; set; }
 
 
-    //public string Id { get; set; }   
+    public virtual ApplicationUser User{ get; set; }
+    [Required]
+    public  string UserId { get; set; }
 }

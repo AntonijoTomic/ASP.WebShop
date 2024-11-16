@@ -1,14 +1,26 @@
 ﻿using Algebra.WebShop.Data;
 using Algebra.WebShop.Extensions;
 using Algebra.WebShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Algebra.WebShop.Controllers;
 
+[Authorize]
 public class OrderController(ApplicationDbContext context) : Controller
 {
+
+    private string? GetCurrentUserId()
+    {
+        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return userId;
+    }
     public IActionResult Index(bool? success)
     {
+       
+        
+
         ViewData["Success"] = success;
         var cart = HttpContext.Session.GetCart();
         ViewData["Cart"]= HttpContext.Session.GetCart();
@@ -23,9 +35,9 @@ public class OrderController(ApplicationDbContext context) : Controller
         if (ModelState.IsValid)
         {
             var cart = HttpContext.Session.GetCart();
-
+            order.UserId = GetCurrentUserId()!;
             order.Total = cart.GrandTotal;
-
+            order.DateTimeCreated = DateTime.UtcNow;
             context.Orders.Add(order);
             context.SaveChanges();
             if (cart.Items.Count > 0)
